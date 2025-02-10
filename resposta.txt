@@ -1,0 +1,197 @@
+Coloque aqui todas as respostas das práticas indicadas no README.mdColoque aqui todas as respostas das práticas indicadas no README.md
+
+1. 
+    root@739025ae4127:/# route -n
+
+    Kernel IP routing table
+    Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+    0.0.0.0         172.18.0.1      0.0.0.0         UG    0      0        0 eth0
+    172.18.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0
+
+        Rede e Máscara: 172.18.0.0/16
+        Roteador Padrão (Gateway): 172.18.0.1
+        Número de Rotas Configuradas: 2 rota
+
+2.
+    root@739025ae4127:/# ip a
+    1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+        inet 127.0.0.1/8 scope host lo
+        valid_lft forever preferred_lft forever
+        inet6 ::1/128 scope host
+        valid_lft forever preferred_lft forever
+    8: eth0@if9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+        link/ether 02:42:ac:12:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+        inet 172.18.0.2/16 brd 172.18.255.255 scope global eth0
+        valid_lft forever preferred_lft forever
+
+            IP da interface de rede: 172.18.0.2/16
+            Rede e Máscara: 172.18.0.0/16 (máscara 255.255.0.0)
+            Nome da interface de rede principal: eth0
+
+3. 
+    3.1 root@739025ae4127:/# nslookup www.google.com
+    Server:         127.0.0.11
+    Address:        127.0.0.11#53
+
+    Non-authoritative answer:
+    Name:   www.google.com
+    Address: 172.217.28.164
+    Name:   www.google.com
+    Address: 2800:3f0:4001:845::2004
+
+    3.2 root@739025ae4127:/# nslookup www.whitehouse.gov
+    Server:         127.0.0.11
+    Address:        127.0.0.11#53
+
+    Non-authoritative answer:
+    www.whitehouse.gov      canonical name = wh47.go-vip.net.
+    Name:   wh47.go-vip.net
+    Address: 192.0.66.51
+    Name:   wh47.go-vip.net
+    Address: 2a04:fa87:fffd::c000:4233
+
+    3.3 root@739025ae4127:/# nslookup www.rnp.br
+    Server:         127.0.0.11
+    Address:        127.0.0.11#53
+
+    Non-authoritative answer:
+    Name:   www.rnp.br
+    Address: 104.18.26.22
+    Name:   www.rnp.br
+    Address: 104.18.27.22
+    Name:   www.rnp.br
+    Address: 2606:4700::6812:1a16
+    Name:   www.rnp.br
+    Address: 2606:4700::6812:1b16
+
+    3.4 root@739025ae4127:/# nslookup www.ufpb.br
+    Server:         127.0.0.11
+    Address:        127.0.0.11#53
+
+    Non-authoritative answer:
+    www.ufpb.br     canonical name = nginx.bbn.ufpb.br.
+    Name:   nginx.bbn.ufpb.br
+    Address: 150.165.254.52
+
+        www.google.com:
+        IPv4: 172.217.28.164
+        IPv6: 2800:3f0:4001:845::2004
+        
+        www.whitehouse.gov:
+        IPv4: 192.0.66.51
+        IPv6: 2a04:fa87:fffd::c000:4233
+        
+        www.rnp.br:
+        IPv4: 104.18.26.22, 104.18.27.22
+        IPv6: 2606:4700::6812:1a16, 2606:4700::6812:1b16
+        
+        www.ufpb.br:
+        IPv4: 150.165.254.52
+
+4. PING 127.0.0.1 (127.0.0.1): 56 data bytes
+    64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.106 ms
+    64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.050 ms
+    64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.033 ms
+    64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.032 ms
+
+    4.1
+        Ping para 127.0.0.1: Tempo de resposta entre 0.032 ms e 0.106 ms.
+        Ping para o IP do container (172.18.0.2): O tempo de resposta seria semelhante, geralmente baixo, entre 0.1 ms e 1 m
+    
+    4.2
+        www.ufpb.br:
+        IP: 150.165.254.52
+        Tempos de resposta: 27.482 ms a 68.944 ms
+
+        www.yahoo.com:
+        IP: 200.152.173.204
+        Tempos de resposta: 169.607 ms a 181.137 ms
+        
+        www.brasil.gov.br:
+        IP: 170.246.255.242
+        Tempos de resposta: 76.969 ms a 206.813 ms
+
+        www.dce.ufpb.br:
+        Resultado: "ping: unknown host", o que significa que o domínio não foi resolvido (provavelmente o site está inacessível ou o nome está incorreto).
+
+    4.3
+        Os tempos de resposta dos pings realizados para os sites variaram entre 57 ms e 59 ms, com pequenas flutuações entre os testes. 
+        Para www.google.com, o tempo médio foi de aproximadamente 58.74 ms; para www.rnp.br, a média ficou em 58.63 ms; e para www.whitehouse.gov, a média foi de 57.88 ms. 
+        A diferença entre esses tempos pode ser influenciada pela distância geográfica, roteamento de rede, congestionamento e desempenho dos servidores de destino.
+    
+5. 
+    Alguns roteadores ao longo do caminho não respondem ao comando traceroute devido a configurações de segurança ou políticas de rede, como filtros de ICMP (protocolo usado pelo traceroute). 
+    Isso não significa necessariamente que há um problema na rede, pois muitos roteadores são configurados para ignorar ou bloquear esse tipo de tráfego para evitar sobrecarga ou proteger a infraestrutura. 
+    O fato de não haver resposta nesses saltos não indica que a rede está com falhas.
+
+6. 
+    6.1 root@739025ae4127:/# netstat -tulnp
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+    tcp        0      0 127.0.0.11:43315        0.0.0.0:*               LISTEN      -
+    udp        0      0 127.0.0.11:46601        0.0.0.0:*                           -
+
+    6.2 root@739025ae4127:/# netstat -r
+    Kernel IP routing table
+    Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+    default         172.18.0.1      0.0.0.0         UG        0 0          0 eth0
+    172.18.0.0      0.0.0.0         255.255.0.0     U         0 0          0 eth0
+
+        Embora os resultados sejam em grande parte os mesmos em termos de informações sobre as rotas, o comando netstat -r 
+        traz detalhes adicionais sobre a configuração de rede e algumas métricas específicas da rede.
+
+7.
+    7.1 root@739025ae4127:/# telnet www.ufpb.br 80
+    Trying 150.165.254.52...
+    Connected to www.ufpb.br.
+    Escape character is '^]'.
+    Connection closed by foreign host.
+
+        O servidor respondeu à tentativa de conexão. O serviço HTTP (porta 80) está ativo, mas a conexão foi fechada logo após a tentativa de comunicação.
+
+    7.2 root@739025ae4127:/# telnet www.dce.ufpb.br 21
+    Server lookup failure:  www.dce.ufpb.br:21, Name or service not known
+
+        Não, não consegui conexão com www.dce.ufpb.br na porta 21. O erro "Server lookup failure" indica que o nome de domínio não pôde ser resolvido para um endereço IP, o que sugere um problema de rede relacionado ao DNS. 
+        Isso pode ocorrer por falhas no servidor DNS ou um nome de domínio incorreto.
+        Para diferenciar entre um problema de rede e um problema no serviço, se o DNS não resolver o nome do domínio, o problema é de rede. 
+        Se o DNS resolver corretamente, mas a conexão com a porta 21 não for possível, então o problema está no serviço FTP ou no acesso à porta, como um firewall bloqueando a comunicação.
+
+8.
+    8.1 É uma ferramenta de diagnóstico de rede que combina as funcionalidades dos comandos 'traceroute' e 'ping'. 
+    Ela permite monitorar a rota e o tempo de resposta dos pacotes enviados para um destino específico, fornecendo informações detalhadas sobre cada salto intermediário na rede. 
+    Isso facilita a identificação de problemas de latência ou perda de pacotes em diferentes pontos da rede.
+
+    8.2 O MTR é útil no gerenciamento de redes para diagnosticar problemas de latência e perda de pacotes, identificar falhas ou congestionamentos, analisar rotas de rede e monitorar o desempenho contínuo. 
+    Ele permite localizar pontos de atraso, verificar onde ocorrem perdas de pacotes e avaliar a qualidade da conexão com provedores de internet. 
+    Essas funções ajudam os administradores de rede a resolver problemas rapidamente, evitando impacto nos usuários.
+
+        8.3.1 739025ae4127 (172.18.0.2) -> www.google.com (172.217.28.164)                                                                                                                                             2025-02-10T14:08:48+0000 
+            Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                                                                                                                                                                                    Packets               Pings
+            Host                                                                                                                                                                                  Loss%   Snt   Last   Avg  Best  Wrst StDev 
+            1. 172.18.0.1                                                                                                                                                                          0.0%    22    0.0   0.0   0.0   0.1   0.0
+            2. 172.217.28.164                                            
+    
+        8.3.2                                                                                                      
+            739025ae4127 (172.18.0.2) -> www.ufpb.br (150.165.254.52)                                                                                                                                                2025-02-10T14:10:30+0000 
+            Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                                                                                                                                                                                    Packets               Pings
+            Host                                                                                                                                                                                  Loss%   Snt   Last   Avg  Best  Wrst StDev 
+            1. 172.18.0.1                                                                                                                                                                          0.0%    25    0.0   0.0   0.0   0.1   0.0
+            2. 150.165.254.52           
+    
+    8.4 O MTR fornece informações sobre a rota e o desempenho da rede, mostrando cada salto e os tempos de resposta. As principais colunas são:
+
+        * Loss%: Percentual de pacotes perdidos.
+        * Snt: Pacotes enviados.
+        * Last: Tempo de resposta do último pacote.
+        * Avg: Tempo médio de resposta.
+        * Best: Melhor tempo de resposta.
+        * Wrst: Pior tempo de resposta.
+        * StDev: Desvio padrão da latência.
+
+        Diagnóstico: Alta perda de pacotes ou latência elevada indica problemas em pontos específicos da rede, como congestionamento ou falhas. 
+        O desvio padrão alto sugere instabilidade na conexão.                                                                                                                                                           0.0%    25   25.5  25.3  24.5  27.7   0.7
+
